@@ -1,5 +1,13 @@
 abstract class Either<L, R> {
   B fold<B>(B Function(L l) ifLeft, B Function(R r) ifRight);
+
+  @override
+  // ignore: hash_and_equals
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Either<L, R>;
+  }
 }
 
 class Right<L, R> extends Either<L, R> {
