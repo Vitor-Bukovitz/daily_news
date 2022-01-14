@@ -1,6 +1,5 @@
 import 'package:daily_news/core/error/failure.dart';
 import 'package:daily_news/core/usecases/either.dart';
-import 'package:daily_news/core/usecases/usecase.dart';
 import 'package:daily_news/features/home/domain/entities/article_entity.dart';
 import 'package:daily_news/features/home/domain/repositories/articles_repository.dart';
 import 'package:daily_news/features/home/domain/usecases/get_articles_usecase.dart';
@@ -12,28 +11,29 @@ import 'get_articles_usecase_test.mocks.dart';
 
 @GenerateMocks([ArticlesRepository])
 void main() {
-  late final GetArticlesUsecase usecase;
-  late final MockArticlesRepository repository;
+  late GetArticlesUsecase usecase;
+  late MockArticlesRepository repository;
 
   setUp(() {
     repository = MockArticlesRepository();
     usecase = GetArticlesUsecase(repository);
   });
 
-  const noParams = NoParams();
+  const defaultParameter = ArticlesType.general;
 
   test(
     'should return an empty list of articles from the repository when calling the usecase',
     () async {
       // arrange
       final expected = Right<Failure, List<ArticleEntity>>([]);
-      when(repository.getArticles()).thenAnswer((_) async => expected);
+      when(repository.getArticles(defaultParameter))
+          .thenAnswer((_) async => expected);
 
       // act
-      final actual = await usecase(noParams);
+      final actual = await usecase(defaultParameter);
 
       // assert
-      verify(repository.getArticles()).called(1);
+      verify(repository.getArticles(defaultParameter)).called(1);
       expect(actual, expected);
     },
   );
@@ -51,13 +51,14 @@ void main() {
           content: "",
         )
       ]);
-      when(repository.getArticles()).thenAnswer((_) async => expected);
+      when(repository.getArticles(defaultParameter))
+          .thenAnswer((_) async => expected);
 
       // act
-      final actual = await usecase(noParams);
+      final actual = await usecase(defaultParameter);
 
       // assert
-      verify(repository.getArticles()).called(1);
+      verify(repository.getArticles(defaultParameter)).called(1);
       expect(actual, expected);
     },
   );
@@ -74,13 +75,14 @@ void main() {
         content: "",
       );
       final expected = Right<Failure, List<ArticleEntity>>([entity, entity]);
-      when(repository.getArticles()).thenAnswer((_) async => expected);
+      when(repository.getArticles(defaultParameter))
+          .thenAnswer((_) async => expected);
 
       // act
-      final actual = await usecase(noParams);
+      final actual = await usecase(defaultParameter);
 
       // assert
-      verify(repository.getArticles()).called(1);
+      verify(repository.getArticles(defaultParameter)).called(1);
       expect(actual, expected);
     },
   );
@@ -90,13 +92,14 @@ void main() {
     () async {
       // arrange
       final expected = Left<Failure, List<ArticleEntity>>(ServerFailure());
-      when(repository.getArticles()).thenAnswer((_) async => expected);
+      when(repository.getArticles(defaultParameter))
+          .thenAnswer((_) async => expected);
 
       // act
-      final actual = await usecase(noParams);
+      final actual = await usecase(defaultParameter);
 
       // assert
-      verify(repository.getArticles()).called(1);
+      verify(repository.getArticles(defaultParameter)).called(1);
       expect(actual, expected);
     },
   );
@@ -106,13 +109,14 @@ void main() {
     () async {
       // arrange
       final expected = Left<Failure, List<ArticleEntity>>(ParseFailure());
-      when(repository.getArticles()).thenAnswer((_) async => expected);
+      when(repository.getArticles(defaultParameter))
+          .thenAnswer((_) async => expected);
 
       // act
-      final actual = await usecase(noParams);
+      final actual = await usecase(defaultParameter);
 
       // assert
-      verify(repository.getArticles()).called(1);
+      verify(repository.getArticles(defaultParameter)).called(1);
       expect(actual, expected);
     },
   );

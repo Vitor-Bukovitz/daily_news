@@ -10,6 +10,8 @@ import 'package:daily_news/features/home/domain/entities/article_entity.dart'
     as _i6;
 import 'package:daily_news/features/home/domain/repositories/articles_repository.dart'
     as _i3;
+import 'package:daily_news/features/home/domain/usecases/get_articles_usecase.dart'
+    as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -33,8 +35,9 @@ class MockArticlesRepository extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>> getArticles() =>
-      (super.noSuchMethod(Invocation.method(#getArticles, []),
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>> getArticles(
+          _i7.ArticlesType? articlesType) =>
+      (super.noSuchMethod(Invocation.method(#getArticles, [articlesType]),
           returnValue:
               Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>>.value(
                   _FakeEither_0<_i5.Failure, List<_i6.ArticleEntity>>())) as _i4
