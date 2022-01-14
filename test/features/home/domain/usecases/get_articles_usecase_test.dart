@@ -11,10 +11,10 @@ import 'get_articles_usecase_test.mocks.dart';
 
 @GenerateMocks([ArticlesRepository])
 void main() {
-  late GetArticlesUsecase usecase;
-  late MockArticlesRepository repository;
+  late final GetArticlesUsecase usecase;
+  late final MockArticlesRepository repository;
 
-  setUp(() {
+  setUpAll(() {
     repository = MockArticlesRepository();
     usecase = GetArticlesUsecase(repository);
   });
