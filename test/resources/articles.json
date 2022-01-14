@@ -1,0 +1,19 @@
+{
+    "status": "ok",
+    "totalResults": 38,
+    "articles": [
+        {
+            "source": {
+                "id": "the-washington-post",
+                "name": "The Washington Post"
+            },
+            "author": "Mike DeBonis, Seung Min Kim",
+            "title": "Biden-senate-voting - The Washington Post",
+            "description": "The senator from Arizona outlined her views just before President Biden arrived on Capitol Hill to push for action.",
+            "url": "https://www.washingtonpost.com/politics/biden-set-to-visit-senate-democrats-in-a-final-improbable-pitch-for-voting-rights-action/2022/01/13/fde533b6-7475-11ec-8b0a-bcfab800c430_story.html",
+            "urlToImage": "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/7JET2ZTUUYI6ZCYKXT5LQAGEGA.jpg&w=1440",
+            "publishedAt": "2022-01-13T22:18:17Z",
+            "content": "But the circumstances in which she reiterated it as Senate Democratic leaders prepared to launch a decisive floor debate and less than an hour before President Biden arrived on Capitol Hill to delive… [+12257 chars]"
+        }
+    ]
+}
