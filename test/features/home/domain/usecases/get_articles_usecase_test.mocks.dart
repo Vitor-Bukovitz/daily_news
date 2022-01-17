@@ -35,11 +35,27 @@ class MockArticlesRepository extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>> getArticles(
-          _i7.ArticlesType? articlesType) =>
-      (super.noSuchMethod(Invocation.method(#getArticles, [articlesType]),
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>>
+      getRemoteArticles(_i7.ArticlesType? articlesType) => (super.noSuchMethod(
+          Invocation.method(#getRemoteArticles, [articlesType]),
           returnValue:
               Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>>.value(
                   _FakeEither_0<_i5.Failure, List<_i6.ArticleEntity>>())) as _i4
           .Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>>
+      getCachedArticles(_i7.ArticlesType? articlesType) => (super.noSuchMethod(
+          Invocation.method(#getCachedArticles, [articlesType]),
+          returnValue:
+              Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>>.value(
+                  _FakeEither_0<_i5.Failure, List<_i6.ArticleEntity>>())) as _i4
+          .Future<_i2.Either<_i5.Failure, List<_i6.ArticleEntity>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, DateTime>> getLastArticlesDateTime(
+          _i7.ArticlesType? articlesType) =>
+      (super.noSuchMethod(
+              Invocation.method(#getLastArticlesDateTime, [articlesType]),
+              returnValue: Future<_i2.Either<_i5.Failure, DateTime>>.value(
+                  _FakeEither_0<_i5.Failure, DateTime>()))
+          as _i4.Future<_i2.Either<_i5.Failure, DateTime>>);
 }

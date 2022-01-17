@@ -10,11 +10,11 @@ void main() {
 
       // act
       final articleEntity = ArticleEntity(
-        title: "title",
-        description: "description",
-        imageUrl: "imageUrl",
+        title: 'title',
+        description: 'description',
+        imageUrl: 'imageUrl',
         publishedAt: dateNow,
-        content: "content",
+        content: 'content',
       );
 
       // assert

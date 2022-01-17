@@ -10,7 +10,18 @@ class GetArticlesUsecase extends Usecase<List<ArticleEntity>, ArticlesType> {
 
   @override
   Future<Either<Failure, List<ArticleEntity>>> call(ArticlesType params) async {
-    return _repository.getArticles(params);
+    final articlesDateTime = await _repository.getLastArticlesDateTime(params);
+    return articlesDateTime.fold((l) {
+      return Left(l);
+    }, (lastTime) {
+      final timeNow = DateTime.now();
+      final dateTimeDifferenceInHours = timeNow.difference(lastTime).inDays;
+      if (dateTimeDifferenceInHours >= 1) {
+        return _repository.getRemoteArticles(params);
+      } else {
+        return _repository.getCachedArticles(params);
+      }
+    });
   }
 }
 

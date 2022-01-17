@@ -21,103 +21,241 @@ void main() {
 
   const defaultParameter = ArticlesType.general;
 
-  test(
-    'should return an empty list of articles from the repository when calling the usecase',
-    () async {
-      // arrange
-      final expected = Right<Failure, List<ArticleEntity>>([]);
-      when(repository.getArticles(defaultParameter))
-          .thenAnswer((_) async => expected);
+  group('testing with datetime > 24 hours', () {
+    test(
+      'should return an empty list of articles from the repository when is one day after cache',
+      () async {
+        // arrange
+        final oneDayAgoDateTime = Right<Failure, DateTime>(
+            DateTime.now().subtract(const Duration(days: 1)));
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => oneDayAgoDateTime);
+        final expected = Right<Failure, List<ArticleEntity>>([]);
+        when(repository.getRemoteArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
 
-      // act
-      final actual = await usecase(defaultParameter);
+        // act
+        final actual = await usecase(defaultParameter);
 
-      // assert
-      verify(repository.getArticles(defaultParameter)).called(1);
-      expect(actual, expected);
-    },
-  );
+        // assert
+        verify(repository.getRemoteArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
 
-  test(
-    'should return a list with a single article from the repository when calling the usecase',
-    () async {
-      // arrange
-      final expected = Right<Failure, List<ArticleEntity>>([
-        ArticleEntity(
-          title: "",
-          description: "",
-          imageUrl: "",
+    test(
+      'should return a list with a single article from the repository when calling the usecase',
+      () async {
+        // arrange
+        final oneDayAgoDateTime = Right<Failure, DateTime>(
+            DateTime.now().subtract(const Duration(days: 1)));
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => oneDayAgoDateTime);
+        final expected = Right<Failure, List<ArticleEntity>>([
+          ArticleEntity(
+            title: '',
+            description: '',
+            imageUrl: '',
+            publishedAt: DateTime.now(),
+            content: '',
+          )
+        ]);
+        when(repository.getRemoteArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
+
+        // act
+        final actual = await usecase(defaultParameter);
+
+        // assert
+        verify(repository.getRemoteArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
+
+    test(
+      'should return a list with two articles from the repository when calling the usecase',
+      () async {
+        // arrange
+        final oneDayAgoDateTime = Right<Failure, DateTime>(
+            DateTime.now().subtract(const Duration(days: 1)));
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => oneDayAgoDateTime);
+        final entity = ArticleEntity(
+          title: '',
+          description: '',
+          imageUrl: '',
           publishedAt: DateTime.now(),
-          content: "",
-        )
-      ]);
-      when(repository.getArticles(defaultParameter))
-          .thenAnswer((_) async => expected);
+          content: '',
+        );
+        final expected = Right<Failure, List<ArticleEntity>>([entity, entity]);
+        when(repository.getRemoteArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
 
-      // act
-      final actual = await usecase(defaultParameter);
+        // act
+        final actual = await usecase(defaultParameter);
 
-      // assert
-      verify(repository.getArticles(defaultParameter)).called(1);
-      expect(actual, expected);
-    },
-  );
+        // assert
+        verify(repository.getRemoteArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
 
-  test(
-    'should return a list with two articles from the repository when calling the usecase',
-    () async {
-      // arrange
-      final entity = ArticleEntity(
-        title: "",
-        description: "",
-        imageUrl: "",
-        publishedAt: DateTime.now(),
-        content: "",
-      );
-      final expected = Right<Failure, List<ArticleEntity>>([entity, entity]);
-      when(repository.getArticles(defaultParameter))
-          .thenAnswer((_) async => expected);
+    test(
+      'should return a [ServerFailure] from the repository when calling the usecase',
+      () async {
+        // arrange
+        final oneDayAgoDateTime = Right<Failure, DateTime>(
+            DateTime.now().subtract(const Duration(days: 1)));
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => oneDayAgoDateTime);
+        final expected = Left<Failure, List<ArticleEntity>>(ServerFailure());
+        when(repository.getRemoteArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
 
-      // act
-      final actual = await usecase(defaultParameter);
+        // act
+        final actual = await usecase(defaultParameter);
 
-      // assert
-      verify(repository.getArticles(defaultParameter)).called(1);
-      expect(actual, expected);
-    },
-  );
+        // assert
+        verify(repository.getRemoteArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
 
-  test(
-    'should return a [ServerFailure] from the repository when calling the usecase',
-    () async {
-      // arrange
-      final expected = Left<Failure, List<ArticleEntity>>(ServerFailure());
-      when(repository.getArticles(defaultParameter))
-          .thenAnswer((_) async => expected);
+    test(
+      'should return a [ParseFailure] from the repository when calling the usecase',
+      () async {
+        // arrange
+        final oneDayAgoDateTime = Right<Failure, DateTime>(
+            DateTime.now().subtract(const Duration(days: 1)));
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => oneDayAgoDateTime);
+        final expected = Left<Failure, List<ArticleEntity>>(ParseFailure());
+        when(repository.getRemoteArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
 
-      // act
-      final actual = await usecase(defaultParameter);
+        // act
+        final actual = await usecase(defaultParameter);
 
-      // assert
-      verify(repository.getArticles(defaultParameter)).called(1);
-      expect(actual, expected);
-    },
-  );
+        // assert
+        verify(repository.getRemoteArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
+  });
+  group('testing with datetime < 24 hours', () {
+    test(
+      'should return an empty list of articles from the repository when is one day after cache',
+      () async {
+        // arrange
+        final nowDateTime = Right<Failure, DateTime>(DateTime.now());
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => nowDateTime);
+        final expected = Right<Failure, List<ArticleEntity>>([]);
+        when(repository.getCachedArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
 
-  test(
-    'should return a [ParseFailure] from the repository when calling the usecase',
-    () async {
-      // arrange
-      final expected = Left<Failure, List<ArticleEntity>>(ParseFailure());
-      when(repository.getArticles(defaultParameter))
-          .thenAnswer((_) async => expected);
+        // act
+        final actual = await usecase(defaultParameter);
 
-      // act
-      final actual = await usecase(defaultParameter);
+        // assert
+        verify(repository.getCachedArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
 
-      // assert
-      verify(repository.getArticles(defaultParameter)).called(1);
-      expect(actual, expected);
-    },
-  );
+    test(
+      'should return a list with a single article from the repository when calling the usecase',
+      () async {
+        // arrange
+        final nowDateTime = Right<Failure, DateTime>(DateTime.now());
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => nowDateTime);
+        final expected = Right<Failure, List<ArticleEntity>>([
+          ArticleEntity(
+            title: '',
+            description: '',
+            imageUrl: '',
+            publishedAt: DateTime.now(),
+            content: '',
+          )
+        ]);
+        when(repository.getCachedArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
+
+        // act
+        final actual = await usecase(defaultParameter);
+
+        // assert
+        verify(repository.getCachedArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
+
+    test(
+      'should return a list with two articles from the repository when calling the usecase',
+      () async {
+        // arrange
+        final nowDateTime = Right<Failure, DateTime>(DateTime.now());
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => nowDateTime);
+        final entity = ArticleEntity(
+          title: '',
+          description: '',
+          imageUrl: '',
+          publishedAt: DateTime.now(),
+          content: '',
+        );
+        final expected = Right<Failure, List<ArticleEntity>>([entity, entity]);
+        when(repository.getCachedArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
+
+        // act
+        final actual = await usecase(defaultParameter);
+
+        // assert
+        verify(repository.getCachedArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
+
+    test(
+      'should return a [CacheFailure] from the repository when calling the usecase',
+      () async {
+        // arrange
+        final nowDateTime = Right<Failure, DateTime>(DateTime.now());
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => nowDateTime);
+        final expected = Left<Failure, List<ArticleEntity>>(CacheFailure());
+        when(repository.getCachedArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
+
+        // act
+        final actual = await usecase(defaultParameter);
+
+        // assert
+        verify(repository.getCachedArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
+
+    test(
+      'should return a [ParseFailure] from the repository when calling the usecase',
+      () async {
+        // arrange
+        final nowDateTime = Right<Failure, DateTime>(DateTime.now());
+        when(repository.getLastArticlesDateTime(defaultParameter))
+            .thenAnswer((_) async => nowDateTime);
+        final expected = Left<Failure, List<ArticleEntity>>(ParseFailure());
+        when(repository.getCachedArticles(defaultParameter))
+            .thenAnswer((_) async => expected);
+
+        // act
+        final actual = await usecase(defaultParameter);
+
+        // assert
+        verify(repository.getCachedArticles(defaultParameter)).called(1);
+        expect(actual, expected);
+      },
+    );
+  });
 }
