@@ -46,6 +46,7 @@ void main() {
 
         // assert
         verify(remoteDataSource.getArticles(defaultParameter)).called(1);
+        verify(localDataSource.cacheArticles(emptyArray)).called(1);
         verifyNever(localDataSource.getCachedArticles(defaultParameter));
         verifyNever(localDataSource.getLastArticlesDateTime(defaultParameter));
         expect(actual, expected);
@@ -75,6 +76,7 @@ void main() {
 
         // assert
         verify(remoteDataSource.getArticles(defaultParameter)).called(1);
+        verify(localDataSource.cacheArticles(listSingleArticle)).called(1);
         verifyNever(localDataSource.getCachedArticles(defaultParameter));
         verifyNever(localDataSource.getLastArticlesDateTime(defaultParameter));
         expect(actual, expected);
@@ -82,13 +84,20 @@ void main() {
     );
 
     test(
-      'should return a valid empty list of articles when calling getArticles from the repository',
+      'should return a valid list of articles with two articles when calling getArticles from the repository',
       () async {
         // arrange
-        final emptyArray = <ArticleEntity>[];
-        final expected = Right<Failure, List<ArticleEntity>>(emptyArray);
+        final article = ArticleEntity(
+          title: '',
+          description: '',
+          imageUrl: '',
+          publishedAt: DateTime.now(),
+          content: '',
+        );
+        final listTwoArticles = [article, article];
+        final expected = Right<Failure, List<ArticleEntity>>(listTwoArticles);
         when(remoteDataSource.getArticles(defaultParameter)).thenAnswer(
-          (_) async => emptyArray,
+          (_) async => listTwoArticles,
         );
 
         // act
@@ -96,6 +105,7 @@ void main() {
 
         // assert
         verify(remoteDataSource.getArticles(defaultParameter)).called(1);
+        verify(localDataSource.cacheArticles(listTwoArticles)).called(1);
         verifyNever(localDataSource.getCachedArticles(defaultParameter));
         verifyNever(localDataSource.getLastArticlesDateTime(defaultParameter));
         expect(actual, expected);
@@ -117,6 +127,7 @@ void main() {
 
         // assert
         verify(remoteDataSource.getArticles(defaultParameter)).called(1);
+        verifyNever(localDataSource.cacheArticles([]));
         verifyNever(localDataSource.getCachedArticles(defaultParameter));
         verifyNever(localDataSource.getLastArticlesDateTime(defaultParameter));
         expect(actual, expected);
@@ -220,13 +231,20 @@ void main() {
     );
 
     test(
-      'should return a valid empty list of articles when calling getCachedArticles from the repository',
+      'should return a valid list of articles with two articles when calling getCachedArticles from the repository',
       () async {
         // arrange
-        final emptyArray = <ArticleEntity>[];
-        final expected = Right<Failure, List<ArticleEntity>>(emptyArray);
+        final article = ArticleEntity(
+          title: '',
+          description: '',
+          imageUrl: '',
+          publishedAt: DateTime.now(),
+          content: '',
+        );
+        final listTwoArticles = [article, article];
+        final expected = Right<Failure, List<ArticleEntity>>(listTwoArticles);
         when(localDataSource.getCachedArticles(defaultParameter)).thenAnswer(
-          (_) async => emptyArray,
+          (_) async => listTwoArticles,
         );
 
         // act

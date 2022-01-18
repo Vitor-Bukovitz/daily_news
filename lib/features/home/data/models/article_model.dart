@@ -14,12 +14,13 @@ class ArticleModel extends ArticleEntity {
           publishedAt: publishedAt,
           content: content,
         );
+
   Map<String, dynamic> toMap() {
     return {
       'title': title,
       'description': description,
-      'imageUrl': imageUrl,
-      'publishedAt': publishedAt.millisecondsSinceEpoch,
+      'urlToImage': imageUrl,
+      'publishedAt': publishedAt.toIso8601String(),
       'content': content,
     };
   }
@@ -39,5 +40,26 @@ class ArticleModel extends ArticleEntity {
     } else {
       throw const FormatException();
     }
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ArticleEntity &&
+        other.title == title &&
+        other.description == description &&
+        other.imageUrl == imageUrl &&
+        other.publishedAt == publishedAt &&
+        other.content == content;
+  }
+
+  @override
+  int get hashCode {
+    return title.hashCode ^
+        description.hashCode ^
+        imageUrl.hashCode ^
+        publishedAt.hashCode ^
+        content.hashCode;
   }
 }
