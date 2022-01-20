@@ -29,7 +29,7 @@ void main() {
       () async {
         // arrange
         final expected = [
-          ArticleEntity(
+          ArticleModel(
             title: '',
             description: '',
             imageUrl: '',
@@ -44,11 +44,7 @@ void main() {
           box.put(
             cachedArticlesKey,
             json.encode(
-              expected
-                  .map(
-                    (e) => (e as ArticleModel).toMap(),
-                  )
-                  .toList(),
+              expected.map((e) => (e).toMap()).toList(),
             ),
           ),
         );

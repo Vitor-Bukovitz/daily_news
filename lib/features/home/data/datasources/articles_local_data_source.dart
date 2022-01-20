@@ -9,7 +9,7 @@ import 'package:hive/hive.dart';
 abstract class ArticlesLocalDataSource {
   Future<List<ArticleEntity>> getCachedArticles(ArticlesType articlesType);
   Future<DateTime> getLastArticlesDateTime(ArticlesType articlesType);
-  Future<void> cacheArticles(List<ArticleEntity> articles);
+  Future<void> cacheArticles(List<ArticleModel> articles);
 }
 
 const cachedArticlesKey = 'cachedArticlesKey';
@@ -20,9 +20,9 @@ class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
   ArticlesLocalDataSourceImpl({required this.box});
 
   @override
-  Future<void> cacheArticles(List<ArticleEntity> articles) async {
+  Future<void> cacheArticles(List<ArticleModel> articles) async {
     await box.put(cachedArticlesKey,
-        json.encode(articles.map((e) => (e as ArticleModel).toMap()).toList()));
+        json.encode(articles.map((e) => e.toMap()).toList()));
   }
 
   @override
@@ -30,8 +30,9 @@ class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
     ArticlesType articlesType,
   ) async {
     final articlesJsonList = box.get(cachedArticlesKey);
-    if (articlesJsonList == null) throw CacheException();
-    if (articlesJsonList.runtimeType != String) throw CacheException();
+    if (articlesJsonList == null || articlesJsonList.runtimeType != String) {
+      throw CacheException();
+    }
     final articlesRawList = json.decode(articlesJsonList);
     if (articlesRawList.runtimeType != List) throw CacheException();
     try {

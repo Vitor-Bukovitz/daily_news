@@ -8,8 +8,9 @@ import 'package:daily_news/features/home/data/datasources/articles_local_data_so
     as _i6;
 import 'package:daily_news/features/home/data/datasources/articles_remote_data_source.dart'
     as _i2;
+import 'package:daily_news/features/home/data/models/article_model.dart' as _i4;
 import 'package:daily_news/features/home/domain/entities/article_entity.dart'
-    as _i4;
+    as _i7;
 import 'package:daily_news/features/home/domain/usecases/get_articles_usecase.dart'
     as _i5;
 import 'package:mockito/mockito.dart' as _i1;
@@ -35,12 +36,12 @@ class MockArticlesRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i4.ArticleEntity>> getArticles(
+  _i3.Future<List<_i4.ArticleModel>> getArticles(
           _i5.ArticlesType? articlesType) =>
       (super.noSuchMethod(Invocation.method(#getArticles, [articlesType]),
               returnValue:
-                  Future<List<_i4.ArticleEntity>>.value(<_i4.ArticleEntity>[]))
-          as _i3.Future<List<_i4.ArticleEntity>>);
+                  Future<List<_i4.ArticleModel>>.value(<_i4.ArticleModel>[]))
+          as _i3.Future<List<_i4.ArticleModel>>);
 }
 
 /// A class which mocks [ArticlesLocalDataSource].
@@ -53,12 +54,12 @@ class MockArticlesLocalDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i4.ArticleEntity>> getCachedArticles(
+  _i3.Future<List<_i7.ArticleEntity>> getCachedArticles(
           _i5.ArticlesType? articlesType) =>
       (super.noSuchMethod(Invocation.method(#getCachedArticles, [articlesType]),
               returnValue:
-                  Future<List<_i4.ArticleEntity>>.value(<_i4.ArticleEntity>[]))
-          as _i3.Future<List<_i4.ArticleEntity>>);
+                  Future<List<_i7.ArticleEntity>>.value(<_i7.ArticleEntity>[]))
+          as _i3.Future<List<_i7.ArticleEntity>>);
   @override
   _i3.Future<DateTime> getLastArticlesDateTime(
           _i5.ArticlesType? articlesType) =>
@@ -67,7 +68,7 @@ class MockArticlesLocalDataSource extends _i1.Mock
               returnValue: Future<DateTime>.value(_FakeDateTime_0()))
           as _i3.Future<DateTime>);
   @override
-  _i3.Future<void> cacheArticles(List<_i4.ArticleEntity>? articles) =>
+  _i3.Future<void> cacheArticles(List<_i4.ArticleModel>? articles) =>
       (super.noSuchMethod(Invocation.method(#cacheArticles, [articles]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i3.Future<void>);

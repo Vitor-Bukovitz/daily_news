@@ -3,6 +3,7 @@ import 'package:daily_news/core/error/failure.dart';
 import 'package:daily_news/core/usecases/either.dart';
 import 'package:daily_news/features/home/data/datasources/articles_local_data_source.dart';
 import 'package:daily_news/features/home/data/datasources/articles_remote_data_source.dart';
+import 'package:daily_news/features/home/data/models/article_model.dart';
 import 'package:daily_news/features/home/data/repositories/articles_repository_impl.dart';
 import 'package:daily_news/features/home/domain/entities/article_entity.dart';
 import 'package:daily_news/features/home/domain/repositories/articles_repository.dart';
@@ -35,7 +36,7 @@ void main() {
       'should return a valid empty list of articles when calling getArticles from the repository',
       () async {
         // arrange
-        final emptyArray = <ArticleEntity>[];
+        final emptyArray = <ArticleModel>[];
         final expected = Right<Failure, List<ArticleEntity>>(emptyArray);
         when(remoteDataSource.getArticles(defaultParameter)).thenAnswer(
           (_) async => emptyArray,
@@ -58,7 +59,7 @@ void main() {
       () async {
         // arrange
         final listSingleArticle = [
-          ArticleEntity(
+          ArticleModel(
             title: '',
             description: '',
             imageUrl: '',
@@ -87,7 +88,7 @@ void main() {
       'should return a valid list of articles with two articles when calling getArticles from the repository',
       () async {
         // arrange
-        final article = ArticleEntity(
+        final article = ArticleModel(
           title: '',
           description: '',
           imageUrl: '',
