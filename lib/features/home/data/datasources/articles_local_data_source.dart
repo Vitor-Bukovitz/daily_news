@@ -16,6 +16,7 @@ abstract class ArticlesLocalDataSource {
 }
 
 const cachedArticlesKey = 'cachedArticlesKey';
+const lastArticlesDateTimeKey = 'lastArticlesDateTimeKey';
 
 class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
   final Box box;
@@ -27,8 +28,14 @@ class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
     List<ArticleModel> articles,
     ArticlesType articlesType,
   ) async {
-    await box.put('$cachedArticlesKey${articlesType.name}',
-        json.encode(articles.map((e) => e.toMap()).toList()));
+    await box.put(
+      '$cachedArticlesKey${articlesType.name}',
+      json.encode(articles.map((e) => e.toMap()).toList()),
+    );
+    await box.put(
+      '$lastArticlesDateTimeKey${articlesType.name}',
+      CustomizableDateTime.current,
+    );
   }
 
   @override
@@ -54,8 +61,20 @@ class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
   }
 
   @override
-  Future<DateTime> getLastArticlesDateTime(ArticlesType articlesType) {
-    // TODO: implement getLastArticlesDateTime
-    throw UnimplementedError();
+  Future<DateTime> getLastArticlesDateTime(ArticlesType articlesType) async {
+    final dateTime = box.get('$lastArticlesDateTimeKey${articlesType.name}');
+    if (dateTime.runtimeType != DateTime) throw CacheException();
+    return dateTime;
+  }
+}
+
+extension CustomizableDateTime on DateTime {
+  static DateTime? _customTime;
+  static DateTime get current {
+    return _customTime ?? DateTime.now();
+  }
+
+  static set current(DateTime current) {
+    _customTime = current;
   }
 }
