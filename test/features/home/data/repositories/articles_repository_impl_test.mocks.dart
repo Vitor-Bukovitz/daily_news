@@ -68,8 +68,10 @@ class MockArticlesLocalDataSource extends _i1.Mock
               returnValue: Future<DateTime>.value(_FakeDateTime_0()))
           as _i3.Future<DateTime>);
   @override
-  _i3.Future<void> cacheArticles(List<_i4.ArticleModel>? articles) =>
-      (super.noSuchMethod(Invocation.method(#cacheArticles, [articles]),
+  _i3.Future<void> cacheArticles(
+          List<_i4.ArticleModel>? articles, _i5.ArticlesType? articlesType) =>
+      (super.noSuchMethod(
+          Invocation.method(#cacheArticles, [articles, articlesType]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i3.Future<void>);
 }

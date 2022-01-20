@@ -47,7 +47,8 @@ void main() {
 
         // assert
         verify(remoteDataSource.getArticles(defaultParameter)).called(1);
-        verify(localDataSource.cacheArticles(emptyArray)).called(1);
+        verify(localDataSource.cacheArticles(emptyArray, defaultParameter))
+            .called(1);
         verifyNever(localDataSource.getCachedArticles(defaultParameter));
         verifyNever(localDataSource.getLastArticlesDateTime(defaultParameter));
         expect(actual, expected);
@@ -77,7 +78,9 @@ void main() {
 
         // assert
         verify(remoteDataSource.getArticles(defaultParameter)).called(1);
-        verify(localDataSource.cacheArticles(listSingleArticle)).called(1);
+        verify(localDataSource.cacheArticles(
+                listSingleArticle, defaultParameter))
+            .called(1);
         verifyNever(localDataSource.getCachedArticles(defaultParameter));
         verifyNever(localDataSource.getLastArticlesDateTime(defaultParameter));
         expect(actual, expected);
@@ -106,7 +109,8 @@ void main() {
 
         // assert
         verify(remoteDataSource.getArticles(defaultParameter)).called(1);
-        verify(localDataSource.cacheArticles(listTwoArticles)).called(1);
+        verify(localDataSource.cacheArticles(listTwoArticles, defaultParameter))
+            .called(1);
         verifyNever(localDataSource.getCachedArticles(defaultParameter));
         verifyNever(localDataSource.getLastArticlesDateTime(defaultParameter));
         expect(actual, expected);
@@ -128,7 +132,7 @@ void main() {
 
         // assert
         verify(remoteDataSource.getArticles(defaultParameter)).called(1);
-        verifyNever(localDataSource.cacheArticles([]));
+        verifyNever(localDataSource.cacheArticles([], defaultParameter));
         verifyNever(localDataSource.getCachedArticles(defaultParameter));
         verifyNever(localDataSource.getLastArticlesDateTime(defaultParameter));
         expect(actual, expected);

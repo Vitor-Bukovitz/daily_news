@@ -9,7 +9,10 @@ import 'package:hive/hive.dart';
 abstract class ArticlesLocalDataSource {
   Future<List<ArticleEntity>> getCachedArticles(ArticlesType articlesType);
   Future<DateTime> getLastArticlesDateTime(ArticlesType articlesType);
-  Future<void> cacheArticles(List<ArticleModel> articles);
+  Future<void> cacheArticles(
+    List<ArticleModel> articles,
+    ArticlesType articlesType,
+  );
 }
 
 const cachedArticlesKey = 'cachedArticlesKey';
@@ -20,8 +23,11 @@ class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
   ArticlesLocalDataSourceImpl({required this.box});
 
   @override
-  Future<void> cacheArticles(List<ArticleModel> articles) async {
-    await box.put(cachedArticlesKey,
+  Future<void> cacheArticles(
+    List<ArticleModel> articles,
+    ArticlesType articlesType,
+  ) async {
+    await box.put('$cachedArticlesKey${articlesType.name}',
         json.encode(articles.map((e) => e.toMap()).toList()));
   }
 

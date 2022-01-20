@@ -37,12 +37,12 @@ void main() {
             content: '',
           ),
         ];
-        articlesLocalDataSource.cacheArticles(expected);
+        articlesLocalDataSource.cacheArticles(expected, defaultParameter);
 
         // assert
         verify(
           box.put(
-            cachedArticlesKey,
+            '$cachedArticlesKey${defaultParameter.name}',
             json.encode(
               expected.map((e) => (e).toMap()).toList(),
             ),

@@ -46,7 +46,7 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
   ) async {
     try {
       final articlesList = await remoteDataSource.getArticles(articlesType);
-      localDataSource.cacheArticles(articlesList);
+      localDataSource.cacheArticles(articlesList, articlesType);
       return Right(articlesList);
     } on ServerException {
       return Left(ServerFailure());
