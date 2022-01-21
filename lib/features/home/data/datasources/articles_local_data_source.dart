@@ -21,7 +21,9 @@ const lastArticlesDateTimeKey = 'lastArticlesDateTimeKey';
 class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
   final Box box;
 
-  ArticlesLocalDataSourceImpl({required this.box});
+  ArticlesLocalDataSourceImpl({
+    required this.box,
+  });
 
   @override
   Future<void> cacheArticles(

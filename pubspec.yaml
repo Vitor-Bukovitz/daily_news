@@ -9,9 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # State Management / Dependency Injection
+  flutter_riverpod: ^1.0.3
   
   # Data Sources
-  hive: ^2.0.5
+  hive_flutter: ^1.1.0
   http: ^0.13.4
 
 dev_dependencies:
