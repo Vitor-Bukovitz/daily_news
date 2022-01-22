@@ -10,7 +10,7 @@
             "type": "dart",
             "args": [
                 "--dart-define=newsApiKey=afdcd475833e8e0d4d610c1bbaa5bfbd",
-                "--dart-define=baseApiUrl=https://newsapi.org/v2/"
+                "--dart-define=baseApiUrl=newsapi.org"
             ],
         },
         {
@@ -20,7 +20,7 @@
             "flutterMode": "profile",
             "args": [
                 "--dart-define=newsApiKey=afdcd475833e8e0d4d610c1bbaa5bfbd",
-                "--dart-define=baseApiUrl=https://newsapi.org/v2/"
+                "--dart-define=baseApiUrl=newsapi.org"
             ],
         }
     ]

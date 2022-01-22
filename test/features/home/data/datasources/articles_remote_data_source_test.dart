@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:daily_news/core/error/exceptions.dart';
 import 'package:daily_news/core/providers/config_providers.dart';
 import 'package:daily_news/features/home/data/datasources/articles_remote_data_source.dart';
 import 'package:daily_news/features/home/data/models/article_model.dart';
@@ -27,7 +29,7 @@ void main() {
   });
 
   setUp(() async {
-    when(config.baseApiUrl).thenReturn('https://www.url.com/');
+    when(config.baseApiUrl).thenReturn('url.com');
     when(config.newsApiKey).thenReturn('123');
   });
 
@@ -35,8 +37,7 @@ void main() {
     verify(config.baseApiUrl).called(1);
     verify(config.newsApiKey).called(1);
     verify(httpClient.get(
-      Uri.parse(
-          'https://www.url.com/top-headlines?category=business&apiKey=123'),
+      Uri.parse('https://url.com/top-headlines?category=business&apiKey=123'),
     )).called(1);
   });
 
@@ -44,31 +45,101 @@ void main() {
 
   group('getArticles', () {
     test(
-      'should return an empty array of articles from the remote data source when calling getArticles',
+      'should return an array of articles according to the resource in local files when calling the remote data source',
       () async {
         // arrange
-        final expected = [
-          ArticleModel(
-            title: 'title',
-            description: 'description',
-            imageUrl: 'imageUrl',
-            publishedAt: DateTime.now(),
-            content: 'content',
-          ),
-        ];
+        final file = File('test/resources/articles.json');
+        final responseString = await file.readAsString();
+        final expected = ((json.decode(responseString)
+                as Map<String, dynamic>)['articles'] as List<dynamic>)
+            .map((e) => ArticleModel.fromMap(e))
+            .toList();
         when(httpClient.get(
           Uri.parse(
-              'https://www.url.com/top-headlines?category=business&apiKey=123'),
+              'https://url.com/top-headlines?category=business&apiKey=123'),
         )).thenAnswer(
-          (_) async => http.Response(
-              json.encode(expected.map((e) => e.toMap()).toList()), 200),
+          (_) async => http.Response(responseString, 200, headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
+          }),
         );
 
         // act
-        final actual = remoteDataSource.getArticles(defaultParameter);
+        final actual = await remoteDataSource.getArticles(defaultParameter);
 
         // assert
         expect(actual, expected);
+      },
+    );
+
+    test(
+      'should throw a ServerException when something goes wrong with the request and it throws an exeption',
+      () async {
+        // arrange
+        when(httpClient.get(
+          Uri.parse(
+              'https://url.com/top-headlines?category=business&apiKey=123'),
+        )).thenAnswer(
+            (_) => throw http.ClientException('Something went wrong'));
+
+        // act
+        final actual = remoteDataSource.getArticles;
+
+        // assert
+        expect(
+          () => actual(defaultParameter),
+          throwsA(
+            isInstanceOf<ServerException>(),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response status code is not 200',
+      () async {
+        // arrange
+        when(httpClient.get(
+          Uri.parse(
+              'https://url.com/top-headlines?category=business&apiKey=123'),
+        )).thenAnswer((_) async => http.Response('', 404));
+
+        // act
+        final actual = remoteDataSource.getArticles;
+
+        // assert
+        expect(
+          () => actual(defaultParameter),
+          throwsA(
+            isInstanceOf<ServerException>(),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should throw a ServerException when the status code is 200 but the json is invalid',
+      () async {
+        // arrange
+        when(httpClient.get(
+          Uri.parse(
+              'https://url.com/top-headlines?category=business&apiKey=123'),
+        )).thenAnswer(
+          (_) async => http.Response('{articles:[{\'dsad\': dsoajdosa}]}', 200,
+              headers: {
+                HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
+              }),
+        );
+
+        // act
+        final actual = remoteDataSource.getArticles;
+
+        // assert
+        expect(
+          () => actual(defaultParameter),
+          throwsA(
+            isInstanceOf<ServerException>(),
+          ),
+        );
       },
     );
   });
