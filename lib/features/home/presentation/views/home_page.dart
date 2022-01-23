@@ -1,4 +1,5 @@
 import 'package:daily_news/features/home/domain/usecases/get_articles_usecase.dart';
+import 'package:daily_news/features/home/presentation/widgets/home_list_card.dart';
 import 'package:daily_news/features/home/presentation/widgets/home_sliver_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -15,15 +16,11 @@ class HomePage extends StatelessWidget {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return HomeSliverAppbar.withTabBar();
           },
-          body: CustomScrollView(
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: Container(color: Colors.red, height: 100),
-              ),
-              SliverToBoxAdapter(
-                child: Container(color: Colors.amber, height: 100),
-              ),
-            ],
+          body: ListView.builder(
+            padding: const EdgeInsetsDirectional.only(top: 24),
+            itemBuilder: (context, index) {
+              return const HomeListCard();
+            },
           ),
         ),
       ),

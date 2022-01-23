@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 final lightTheme = ThemeData(
   fontFamily: 'WorkSans',
+  textTheme: const TextTheme(
+    headline6: TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
   colorScheme: const ColorScheme(
     primary: Colors.white,
     primaryVariant: Colors.white,
@@ -30,15 +36,23 @@ final lightTheme = ThemeData(
     labelColor: Colors.black,
     labelStyle: TextStyle(
       fontWeight: FontWeight.w600,
+      fontSize: 16,
     ),
     unselectedLabelStyle: TextStyle(
       fontWeight: FontWeight.w600,
+      fontSize: 16,
     ),
   ),
 );
 
 final darkTheme = ThemeData(
   fontFamily: 'WorkSans',
+  textTheme: const TextTheme(
+    headline6: TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
   colorScheme: const ColorScheme(
     primary: Color(0xff1A1A1A),
     primaryVariant: Color(0xff1A1A1A),
@@ -67,9 +81,11 @@ final darkTheme = ThemeData(
     labelColor: Colors.white,
     labelStyle: TextStyle(
       fontWeight: FontWeight.w600,
+      fontSize: 16,
     ),
     unselectedLabelStyle: TextStyle(
       fontWeight: FontWeight.w600,
+      fontSize: 16,
     ),
   ),
 );
