@@ -1,7 +1,12 @@
+import 'package:daily_news/features/home/domain/entities/article_entity.dart';
 import 'package:flutter/material.dart';
 
 class HomeListCard extends StatelessWidget {
-  const HomeListCard({Key? key}) : super(key: key);
+  const HomeListCard({
+    Key? key,
+    required this.article,
+  }) : super(key: key);
+  final ArticleEntity article;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,7 @@ class HomeListCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '2 million people going to storm Area 51',
+                    article.title,
                     maxLines: 2,
                     style: Theme.of(context).textTheme.headline6,
                     overflow: TextOverflow.ellipsis,

@@ -36,6 +36,7 @@ void main() {
             title: '',
             description: '',
             imageUrl: '',
+            author: '',
             publishedAt: DateTime.now(),
             content: '',
           ),
@@ -91,6 +92,7 @@ void main() {
             title: '',
             description: '',
             imageUrl: '',
+            author: '',
             publishedAt: DateTime.now(),
             content: '',
           ),
@@ -119,6 +121,7 @@ void main() {
           title: '',
           description: '',
           imageUrl: '',
+          author: '',
           publishedAt: DateTime.now(),
           content: '',
         );

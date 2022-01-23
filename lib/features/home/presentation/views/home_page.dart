@@ -1,3 +1,4 @@
+import 'package:daily_news/features/home/data/models/article_model.dart';
 import 'package:daily_news/features/home/domain/usecases/get_articles_usecase.dart';
 import 'package:daily_news/features/home/presentation/widgets/home_list_card.dart';
 import 'package:daily_news/features/home/presentation/widgets/home_sliver_appbar.dart';
@@ -19,7 +20,16 @@ class HomePage extends StatelessWidget {
           body: ListView.builder(
             padding: const EdgeInsetsDirectional.only(top: 24),
             itemBuilder: (context, index) {
-              return const HomeListCard();
+              return HomeListCard(
+                article: ArticleModel(
+                  title: 'title',
+                  description: 'description',
+                  imageUrl: 'imageUrl',
+                  author: 'author',
+                  publishedAt: DateTime.now(),
+                  content: 'content',
+                ),
+              );
             },
           ),
         ),

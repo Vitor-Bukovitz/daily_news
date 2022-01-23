@@ -13,6 +13,7 @@ void main() {
         title: 'title',
         description: 'description',
         imageUrl: 'imageUrl',
+        author: '',
         publishedAt: dateNow,
         content: 'content',
       );

@@ -5,12 +5,14 @@ class ArticleModel extends ArticleEntity {
     required String title,
     required String description,
     required String imageUrl,
+    required String author,
     required DateTime publishedAt,
     required String content,
   }) : super(
           title: title,
           description: description,
           imageUrl: imageUrl,
+          author: author,
           publishedAt: publishedAt,
           content: content,
         );
@@ -20,26 +22,29 @@ class ArticleModel extends ArticleEntity {
       'title': title,
       'description': description,
       'urlToImage': imageUrl,
+      'author': author,
       'publishedAt': publishedAt.toIso8601String(),
       'content': content,
     };
   }
 
   factory ArticleModel.fromMap(Map<String, dynamic> map) {
-    if (map['title'] is String &&
-        map['description'] is String &&
-        map['urlToImage'] is String &&
-        map['content'] is String) {
-      return ArticleModel(
-        title: map['title'],
-        description: map['description'],
-        imageUrl: map['urlToImage'],
-        publishedAt: DateTime.parse(map['publishedAt']),
-        content: map['content'],
-      );
-    } else {
+    if (map['title'] is! String &&
+        map['description'] is! String &&
+        map['urlToImage'] is! String &&
+        map['publishedAt'] is! String &&
+        map['author'] is! String &&
+        map['content'] is! String) {
       throw const FormatException();
     }
+    return ArticleModel(
+      title: map['title'],
+      description: map['description'],
+      imageUrl: map['urlToImage'],
+      author: map['author'],
+      publishedAt: DateTime.parse(map['publishedAt']),
+      content: map['content'],
+    );
   }
 
   @override
@@ -50,6 +55,7 @@ class ArticleModel extends ArticleEntity {
         other.title == title &&
         other.description == description &&
         other.imageUrl == imageUrl &&
+        other.author == author &&
         other.publishedAt == publishedAt &&
         other.content == content;
   }
@@ -59,6 +65,7 @@ class ArticleModel extends ArticleEntity {
     return title.hashCode ^
         description.hashCode ^
         imageUrl.hashCode ^
+        author.hashCode ^
         publishedAt.hashCode ^
         content.hashCode;
   }
