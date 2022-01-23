@@ -28,6 +28,12 @@ final lightTheme = ThemeData(
   ),
   tabBarTheme: const TabBarTheme(
     labelColor: Colors.black,
+    labelStyle: TextStyle(
+      fontWeight: FontWeight.w600,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontWeight: FontWeight.w600,
+    ),
   ),
 );
 
@@ -59,5 +65,11 @@ final darkTheme = ThemeData(
   ),
   tabBarTheme: const TabBarTheme(
     labelColor: Colors.white,
+    labelStyle: TextStyle(
+      fontWeight: FontWeight.w600,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontWeight: FontWeight.w600,
+    ),
   ),
 );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:daily_news/core/error/exceptions.dart';
+import 'package:daily_news/core/extensions/date_time_extensions.dart';
 import 'package:daily_news/features/home/data/models/article_model.dart';
 import 'package:daily_news/features/home/domain/entities/article_entity.dart';
 import 'package:daily_news/features/home/domain/usecases/get_articles_usecase.dart';
@@ -67,16 +68,5 @@ class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
     final dateTime = box.get('$lastArticlesDateTimeKey${articlesType.name}');
     if (dateTime.runtimeType != DateTime) throw CacheException();
     return dateTime;
-  }
-}
-
-extension CustomizableDateTime on DateTime {
-  static DateTime? _customTime;
-  static DateTime get current {
-    return _customTime ?? DateTime.now();
-  }
-
-  static set current(DateTime current) {
-    _customTime = current;
   }
 }
