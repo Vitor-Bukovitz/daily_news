@@ -22,11 +22,14 @@ class ArticlesRemoteDataSourceImpl implements ArticlesRemoteDataSource {
   @override
   Future<List<ArticleModel>> getArticles(ArticlesType articlesType) async {
     final params = {
-      'category': articlesType.name,
       'apiKey': config.newsApiKey,
+      'country': 'us',
     };
+    if (articlesType != ArticlesType.trending) {
+      params['category'] = articlesType.name;
+    }
     try {
-      final uri = Uri.https(config.baseApiUrl, '/top-headlines', params);
+      final uri = Uri.https(config.baseApiUrl, 'v2/top-headlines', params);
       final response = await client.get(uri);
       if (response.statusCode != 200) throw ServerException();
       final articlesJson = json.decode(response.body);

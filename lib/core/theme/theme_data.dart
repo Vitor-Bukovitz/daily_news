@@ -9,7 +9,7 @@ final lightTheme = ThemeData(
     ),
   ),
   colorScheme: const ColorScheme(
-    primary: Colors.white,
+    primary: Colors.black,
     primaryVariant: Colors.white,
     secondary: Colors.black,
     secondaryVariant: Color(0xfff3de69),
@@ -54,7 +54,7 @@ final darkTheme = ThemeData(
     ),
   ),
   colorScheme: const ColorScheme(
-    primary: Color(0xff1A1A1A),
+    primary: Colors.white,
     primaryVariant: Color(0xff1A1A1A),
     secondary: Colors.white,
     secondaryVariant: Color(0xfff3de69),

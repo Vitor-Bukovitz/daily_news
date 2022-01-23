@@ -9,7 +9,7 @@
             "request": "launch",
             "type": "dart",
             "args": [
-                "--dart-define=newsApiKey=afdcd475833e8e0d4d610c1bbaa5bfbd",
+                "--dart-define=newsApiKey=4565a47095e244b1b9b533eae797408c",
                 "--dart-define=baseApiUrl=newsapi.org"
             ],
         },
@@ -19,7 +19,7 @@
             "type": "dart",
             "flutterMode": "profile",
             "args": [
-                "--dart-define=newsApiKey=afdcd475833e8e0d4d610c1bbaa5bfbd",
+                "--dart-define=newsApiKey=4565a47095e244b1b9b533eae797408c",
                 "--dart-define=baseApiUrl=newsapi.org"
             ],
         }

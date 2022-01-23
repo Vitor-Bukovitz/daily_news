@@ -70,7 +70,7 @@ void main() {
       () async {
         // arrange
         final expected = <ArticleEntity>[];
-        when(box.get(cachedArticlesKey))
+        when(box.get('$cachedArticlesKey${defaultParameter.name}'))
             .thenAnswer((_) => json.encode(expected));
 
         // act
@@ -78,7 +78,7 @@ void main() {
             await articlesLocalDataSource.getCachedArticles(defaultParameter);
 
         // assert
-        verify(box.get(cachedArticlesKey)).called(1);
+        verify(box.get('$cachedArticlesKey${defaultParameter.name}')).called(1);
         expect(actual, expected);
       },
     );
@@ -97,7 +97,7 @@ void main() {
             content: '',
           ),
         ];
-        when(box.get(cachedArticlesKey)).thenAnswer(
+        when(box.get('$cachedArticlesKey${defaultParameter.name}')).thenAnswer(
           (_) => json.encode(
             expected.map((e) => e.toMap()).toList(),
           ),
@@ -108,7 +108,7 @@ void main() {
             await articlesLocalDataSource.getCachedArticles(defaultParameter);
 
         // assert
-        verify(box.get(cachedArticlesKey)).called(1);
+        verify(box.get('$cachedArticlesKey${defaultParameter.name}')).called(1);
         expect(actual, expected);
       },
     );
@@ -126,7 +126,7 @@ void main() {
           content: '',
         );
         final expected = [article, article];
-        when(box.get(cachedArticlesKey)).thenAnswer(
+        when(box.get('$cachedArticlesKey${defaultParameter.name}')).thenAnswer(
           (_) => json.encode(
             expected.map((e) => e.toMap()).toList(),
           ),
@@ -137,7 +137,7 @@ void main() {
             await articlesLocalDataSource.getCachedArticles(defaultParameter);
 
         // assert
-        verify(box.get(cachedArticlesKey)).called(1);
+        verify(box.get('$cachedArticlesKey${defaultParameter.name}')).called(1);
         expect(actual, expected);
       },
     );

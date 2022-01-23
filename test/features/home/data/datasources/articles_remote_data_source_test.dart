@@ -36,14 +36,41 @@ void main() {
   tearDown(() {
     verify(config.baseApiUrl).called(1);
     verify(config.newsApiKey).called(1);
-    verify(httpClient.get(
-      Uri.parse('https://url.com/top-headlines?category=business&apiKey=123'),
-    )).called(1);
   });
 
   const defaultParameter = ArticlesType.business;
 
   group('getArticles', () {
+    test(
+      'should call the API with no category header when the article type is trending',
+      () async {
+        // arrange
+        final file = File('test/resources/articles.json');
+        final responseString = await file.readAsString();
+        final expected = ((json.decode(responseString)
+                as Map<String, dynamic>)['articles'] as List<dynamic>)
+            .map((e) => ArticleModel.fromMap(e))
+            .toList();
+        when(httpClient.get(
+          Uri.parse('https://url.com/v2/top-headlines?apiKey=123&country=us'),
+        )).thenAnswer(
+          (_) async => http.Response(responseString, 200, headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
+          }),
+        );
+
+        // act
+        final actual =
+            await remoteDataSource.getArticles(ArticlesType.trending);
+
+        // assert
+        expect(actual, expected);
+        verify(httpClient.get(
+          Uri.parse('https://url.com/v2/top-headlines?apiKey=123&country=us'),
+        )).called(1);
+      },
+    );
+
     test(
       'should return an array of articles according to the resource in local files when calling the remote data source',
       () async {
@@ -56,7 +83,7 @@ void main() {
             .toList();
         when(httpClient.get(
           Uri.parse(
-              'https://url.com/top-headlines?category=business&apiKey=123'),
+              'https://url.com/v2/top-headlines?apiKey=123&country=us&category=business'),
         )).thenAnswer(
           (_) async => http.Response(responseString, 200, headers: {
             HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
@@ -68,6 +95,10 @@ void main() {
 
         // assert
         expect(actual, expected);
+        verify(httpClient.get(
+          Uri.parse(
+              'https://url.com/v2/top-headlines?apiKey=123&country=us&category=business'),
+        )).called(1);
       },
     );
 
@@ -77,7 +108,7 @@ void main() {
         // arrange
         when(httpClient.get(
           Uri.parse(
-              'https://url.com/top-headlines?category=business&apiKey=123'),
+              'https://url.com/v2/top-headlines?apiKey=123&country=us&category=business'),
         )).thenAnswer(
             (_) => throw http.ClientException('Something went wrong'));
 
@@ -91,6 +122,10 @@ void main() {
             isInstanceOf<ServerException>(),
           ),
         );
+        verify(httpClient.get(
+          Uri.parse(
+              'https://url.com/v2/top-headlines?apiKey=123&country=us&category=business'),
+        )).called(1);
       },
     );
 
@@ -100,7 +135,7 @@ void main() {
         // arrange
         when(httpClient.get(
           Uri.parse(
-              'https://url.com/top-headlines?category=business&apiKey=123'),
+              'https://url.com/v2/top-headlines?apiKey=123&country=us&category=business'),
         )).thenAnswer((_) async => http.Response('', 404));
 
         // act
@@ -113,6 +148,10 @@ void main() {
             isInstanceOf<ServerException>(),
           ),
         );
+        verify(httpClient.get(
+          Uri.parse(
+              'https://url.com/v2/top-headlines?apiKey=123&country=us&category=business'),
+        )).called(1);
       },
     );
 
@@ -122,7 +161,7 @@ void main() {
         // arrange
         when(httpClient.get(
           Uri.parse(
-              'https://url.com/top-headlines?category=business&apiKey=123'),
+              'https://url.com/v2/top-headlines?apiKey=123&country=us&category=business'),
         )).thenAnswer(
           (_) async => http.Response('{articles:[{\'dsad\': dsoajdosa}]}', 200,
               headers: {
@@ -140,6 +179,10 @@ void main() {
             isInstanceOf<ServerException>(),
           ),
         );
+        verify(httpClient.get(
+          Uri.parse(
+              'https://url.com/v2/top-headlines?apiKey=123&country=us&category=business'),
+        )).called(1);
       },
     );
   });

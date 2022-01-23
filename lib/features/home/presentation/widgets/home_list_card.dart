@@ -1,5 +1,7 @@
+import 'package:daily_news/core/extensions/date_time_extensions.dart';
 import 'package:daily_news/features/home/domain/entities/article_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeListCard extends StatelessWidget {
   const HomeListCard({
@@ -18,13 +20,23 @@ class HomeListCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(16),
-            ),
+          SizedBox(
             height: 90,
             width: 90,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.network(
+                article.imageUrl ?? '',
+                fit: BoxFit.cover,
+                errorBuilder: (
+                  BuildContext context,
+                  Object exception,
+                  StackTrace? stackTrace,
+                ) {
+                  return SvgPicture.asset('assets/images/placeholder.svg');
+                },
+              ),
+            ),
           ),
           const SizedBox(
             width: 12,
@@ -42,10 +54,10 @@ class HomeListCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 6,
                   ),
-                  const Text(
-                    'Allegra Frank · 28 June',
+                  Text(
+                    '${article.author != null ? '${article.author} · ' : ''}${article.publishedAt.toDateString()}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

@@ -45,7 +45,7 @@ class ArticlesLocalDataSourceImpl implements ArticlesLocalDataSource {
   Future<List<ArticleEntity>> getCachedArticles(
     ArticlesType articlesType,
   ) async {
-    final articlesJsonList = box.get(cachedArticlesKey);
+    final articlesJsonList = box.get('$cachedArticlesKey${articlesType.name}');
     if (articlesJsonList == null || articlesJsonList.runtimeType != String) {
       throw CacheException();
     }

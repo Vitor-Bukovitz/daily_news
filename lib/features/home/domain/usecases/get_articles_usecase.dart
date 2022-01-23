@@ -12,7 +12,7 @@ class GetArticlesUsecase extends Usecase<List<ArticleEntity>, ArticlesType> {
   Future<Either<Failure, List<ArticleEntity>>> call(ArticlesType params) async {
     final articlesDateTime = await _repository.getLastArticlesDateTime(params);
     return articlesDateTime.fold((l) {
-      return Left(l);
+      return _repository.getRemoteArticles(params);
     }, (lastTime) {
       final timeNow = DateTime.now();
       final dateTimeDifferenceInHours = timeNow.difference(lastTime).inDays;

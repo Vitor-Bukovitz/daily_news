@@ -3,11 +3,11 @@ import 'package:daily_news/features/home/domain/entities/article_entity.dart';
 class ArticleModel extends ArticleEntity {
   ArticleModel({
     required String title,
-    required String description,
-    required String imageUrl,
-    required String author,
+    required String? description,
+    required String? imageUrl,
+    required String? author,
     required DateTime publishedAt,
-    required String content,
+    required String? content,
   }) : super(
           title: title,
           description: description,

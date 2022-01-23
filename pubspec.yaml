@@ -13,6 +13,9 @@ dependencies:
   # Assets / UI
   flutter_svg: ^1.0.3
 
+  # Localization
+  intl: ^0.17.0
+
   # State Management / Dependency Injection
   flutter_riverpod: ^1.0.3
   
@@ -33,6 +36,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/images/
 
   fonts:
     - family: WorkSans
