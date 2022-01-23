@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Assets / UI
+  flutter_svg: ^1.0.3
+
   # State Management / Dependency Injection
   flutter_riverpod: ^1.0.3
   
@@ -27,3 +30,16 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/icons/
+
+  fonts:
+    - family: WorkSans
+      fonts:
+        - asset: assets/fonts/WorkSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/WorkSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/WorkSans-Bold.ttf
+          weight: 700
